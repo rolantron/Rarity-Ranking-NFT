@@ -39,7 +39,9 @@ node main.js
 💿 Return to the Origin Repo and Install all dependencies:
 ```sh
 cd -
+if you don''t have yarn installed on your machine then type: npm install --global yarn
 yarn install 
+
 ```
 
 ✏ Rename `.env.example` to `.env` in the main folder and provide your `appId` and `serverUrl` from Moralis ([How to start Moralis Server](https://docs.moralis.io/moralis-server/getting-started/create-a-moralis-server)) 
@@ -56,5 +58,5 @@ REACT_APP_MORALIS_SERVER_URL = https://xxxxxx.grandmoralis.com:2053/server
 
 🚴‍♂️ Run your App:
 ```sh
-yarn start
+yarn start   (or yarn run start)
 ```
