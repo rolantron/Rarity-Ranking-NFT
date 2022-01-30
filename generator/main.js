@@ -1,8 +1,8 @@
 const Moralis = require("moralis/node");
 const { timer } = require("rxjs");
 
-const serverUrl = ""; //Moralis Server Url here
-const appId = ""; //Moralis Server App ID here
+const serverUrl = "https://d5erjew28smg.usemoralis.com:2053/server"; //Moralis Server Url here
+const appId = "yzmL4b2an7VYqJOsBY9FzpLbRn2ldwcJPtYd7Uvz"; //Moralis Server App ID here
 Moralis.start({ serverUrl, appId });
 
 const resolveLink = (url) => {
@@ -10,12 +10,13 @@ const resolveLink = (url) => {
   return url.replace("ipfs://", "https://gateway.ipfs.io/ipfs/");
 };
 
-const collectionAddress = ""; //Collection Address Here
-const collectionName = ""; //CollectioonName Here
-
+const collectionAddress = "0x2102e1e7334eb858a8d237c74df552de7fa1b5a3"; //Collection Address Here
+const collectionName = "phoney"; //CollectioonName Here
+const collectionChain = "polygon"; //chain to use
 async function generateRarity() {
   const NFTs = await Moralis.Web3API.token.getAllTokenIds({
     address: collectionAddress,
+    chain: collectionChain
   });
 
   const totalNum = NFTs.total;
@@ -29,13 +30,14 @@ async function generateRarity() {
   for (let i = pageSize; i < totalNum; i = i + pageSize) {
     const NFTs = await Moralis.Web3API.token.getAllTokenIds({
       address: collectionAddress,
+      chain: collectionChain,
       offset: i,
     });
-    allNFTs = allNFTs.concat(NFTs.result);
     await timer(6000);
+    allNFTs = allNFTs.concat(NFTs.result);
   }
-
-  let metadata = allNFTs.map((e) => JSON.parse(e.metadata).attributes);
+  // let metadata2 =  allNFTs.map((e) => JSON.parse(e.metadata));
+  let metadata = allNFTs.map((e) => JSON.parse(e.metadata)).filter(Boolean).map((e)=> e.attributes);
 
   let tally = { TraitCount: {} };
 
